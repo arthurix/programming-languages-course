@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+IMAGE_PATH=$(dirname $0)/
+
+# Small trick to route network traffic
+# to Tinylinux VM (MacOS only, boot2docker)
+#$runtimePath/scripts/router
+
+# Build runtime image, the idea is this image
+# can appear equals our production environment
+docker build --rm -t course images/development
+
+docker-compose -p apps -f images/development/development.yml run development
+docker-compose -p apps -f images/development/development.yml stop

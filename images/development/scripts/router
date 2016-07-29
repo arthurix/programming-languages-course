@@ -1,0 +1,27 @@
+#!/bin/bash
+
+check_and_add_route() {
+    router_ip=$(boot2docker ip)
+    docker_range='172.17.0.0/22'
+    let routed=$(netstat -rn | awk '{ print $2 }' | grep $router_ip | wc -l)
+
+    if [ $routed -lt 1 ]
+    then
+        sudo route add -net 172.17.0.0/22 -netmask 255.255.255.0 -gateway $router_ip
+    fi
+
+    echo "Routed: $docker_range -> $router_ip"
+}
+
+abort_if_is_a_smart_os() {
+    let need_route=$(uname -a | grep -i darwin | wc -l)
+
+    if [ $need_route -lt 1 ]
+    then
+        echo 'Running on a smart OS, no need to route!';
+        exit 0;
+    fi
+}
+
+abort_if_is_a_smart_os
+check_and_add_route

@@ -1,0 +1,6 @@
+development:
+  image: course
+  command: ./scripts/start
+  volumes:
+    - ./scripts:/scripts
+    - ../..:/source
