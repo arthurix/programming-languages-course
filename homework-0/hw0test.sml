@@ -20,3 +20,5 @@ val test5 = f(12,27) = 324
 by deleting the first two character and last two characters on the line *)
 
 val test6 = triple ~1 = ~3
+
+val test7 = triple 29 = 87
