@@ -3,63 +3,6 @@ set -e
 
 export NOSHELL=true
 
-cat > ~/.emacs <<EOF
-(require 'package)
-(add-to-list 'package-archives
-                   '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(package-initialize)
-
-
-(defvar my-packages
-  '(
-      async
-      auto-complete
-      dash
-      dash-functional
-      eshell
-      fill-column-indicator
-      flycheck
-      guide-key
-      helm
-      helm-flycheck
-      helm-projectile
-      highlight-indentation
-      indent-guide
-      inf-ruby
-      popup
-      projectile
-      sml-mode
-      undo-tree
-)
-  "A list of packages to be installed at application lauch.")
-
-(setq packaged-contents-refreshed-p nil)
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (condition-case ex
-  (package-install p)
-  ('error (if packaged-contents-refreshed-p
-      (error ex)
-    (package-refresh-contents)
-    (setq packaged-contents-refreshed-p t)
-    (package-install p))))))
-
-
-(require 'helm-config)
-
-(helm-mode t)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-
-(setq helm-quick-update t
-     helm-buffers-fuzzy-matching t)
-
-EOF
-
-
 ip=$(ifconfig  | grep inet | awk '{print $2}' | head -1 | awk 'BEGIN{FS=":"}{print $2}')
 
 echo "
@@ -67,7 +10,7 @@ echo "
      Make your changes, and hit F5
           this just works \o/
 
-          https://$ip 
+                $ip
 -------------------------------------
 "
 
